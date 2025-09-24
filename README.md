@@ -1,61 +1,248 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Meter History Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based web application for managing and displaying meter history data. This application provides a complete CRUD interface for meter readings with Excel import functionality, advanced filtering, and a responsive UI.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Core Functionality
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   ✅ **CRUD Operations**: Create, Read, Update, and Delete meter history records
+-   ✅ **Excel Import**: Import meter data from Excel files (.xlsx, .xls, .csv)
+-   ✅ **Advanced Filtering**: Search and filter by community, meter number, date range, status, and household status
+-   ✅ **Pagination**: Efficient handling of large datasets with pagination
+-   ✅ **Responsive Design**: Mobile-friendly Bootstrap UI
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Data Management
 
-## Learning Laravel
+-   ✅ **Comprehensive Fields**: 22-column schema for meter history tracking
+-   ✅ **Meter Transfer Tracking**: Track meter transfers and status changes
+-   ✅ **Data Validation**: Robust form validation for all inputs
+-   ✅ **Status Tracking**: Track meter and household status changes
+-   ✅ **Community Management**: Track community and household changes
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Technical Stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   **Framework**: Laravel 12
+-   **Database**: SQLite (configurable for MySQL/PostgreSQL)
+-   **Frontend**: Bootstrap 5 with custom styling
+-   **Excel Processing**: Laravel Excel (Maatwebsite)
+-   **Icons**: Bootstrap Icons
+-   **Validation**: Laravel built-in validation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation & Setup
 
-## Laravel Sponsors
+### Prerequisites
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   PHP 8.2 or higher
+-   Composer
+-   Node.js (for asset compilation)
 
-### Premium Partners
+### Installation Steps
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1. **Clone the repository**
+
+    ```bash
+    git clone <repository-url>
+    cd meter-history
+    ```
+
+2. **Install PHP dependencies**
+
+    ```bash
+    composer install
+    ```
+
+3. **Install JavaScript dependencies**
+
+    ```bash
+    npm install
+    ```
+
+4. **Environment setup**
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+5. **Database setup**
+
+    ```bash
+    php artisan migrate
+    ```
+
+6. **Create storage link for file uploads**
+
+    ```bash
+    php artisan storage:link
+    ```
+
+7. **Start the development server**
+
+    ```bash
+    php artisan serve
+    ```
+
+8. **Compile assets (optional)**
+    ```bash
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:8000`
+
+## Database Schema
+
+### Meter Histories Table
+
+The application uses a comprehensive `meter_histories` table with 22 columns for tracking meter history:
+
+-   **Basic Information**: status, reason, community, english_name, comet_id_household_public, changed_date
+-   **Meter Information**: meter_number, household_status, old_meter_number, new_meter_number, meter_number_2
+-   **New Holder Information**: old_community_for_new_holder, new_community_for_new_holder, old_household_for_new_holder, new_household_for_new_holder, old_meter_number_for_new_holder, new_meter_number_for_new_holder, status_for_new_holder, new_community_name
+-   **Main Holder Information**: main_holder, comet_id_for_main_holder
+-   **Additional Data**: notes
+-   **Timestamps**: created_at, updated_at
+
+## Usage Guide
+
+### 1. Adding New Records
+
+-   Navigate to "Add Record" from the main menu
+-   Fill in the required fields (marked with \*)
+-   Optional fields can be left empty
+-   Upload a photo if needed
+-   The system will automatically calculate consumption if both previous and current readings are provided
+
+### 2. Importing Excel Data
+
+-   Go to "Import Excel" from the main menu
+-   Select your Excel file (.xlsx, .xls, or .csv)
+-   Ensure your file has headers in the first row
+-   The system supports flexible column naming (see import page for details)
+
+### 3. Filtering and Searching
+
+-   Use the search bar to find records by meter number, customer name, community, or address
+-   Filter by community using the dropdown
+-   Filter by status (active, inactive, maintenance)
+-   Use date range filters for specific periods
+
+### 4. Managing Records
+
+-   **View**: Click the eye icon to see detailed record information
+-   **Edit**: Click the pencil icon to modify existing records
+-   **Delete**: Click the trash icon to remove records (with confirmation)
+
+## Excel Import Format
+
+### All Columns (Optional)
+
+The system supports importing any of the following columns:
+
+**Basic Information:**
+
+-   `status`, `reason`, `community`, `english_name`, `comet_id_household_public`, `changed_date`
+
+**Meter Information:**
+
+-   `meter_number`, `household_status`, `old_meter_number`, `new_meter_number`, `meter_number_2`
+
+**New Holder Information:**
+
+-   `old_community_for_new_holder`, `new_community_for_new_holder`, `old_household_for_new_holder`, `new_household_for_new_holder`, `old_meter_number_for_new_holder`, `new_meter_number_for_new_holder`, `status_for_new_holder`, `new_community_name`
+
+**Main Holder Information:**
+
+-   `main_holder`, `comet_id_for_main_holder`
+
+**Additional Data:**
+
+-   `notes`
+
+## API Endpoints
+
+The application provides RESTful routes for all operations:
+
+-   `GET /meter-histories` - List all records with filtering
+-   `GET /meter-histories/create` - Show create form
+-   `POST /meter-histories` - Store new record
+-   `GET /meter-histories/{id}` - Show specific record
+-   `GET /meter-histories/{id}/edit` - Show edit form
+-   `PUT /meter-histories/{id}` - Update record
+-   `DELETE /meter-histories/{id}` - Delete record
+-   `GET /meter-histories/import` - Show import form
+-   `POST /meter-histories/import` - Process Excel import
+
+## Configuration
+
+### Database Configuration
+
+The application is configured to use SQLite by default. To use MySQL or PostgreSQL:
+
+1. Update your `.env` file:
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    ```
+
+2. Run migrations:
+    ```bash
+    php artisan migrate
+    ```
+
+### File Upload Configuration
+
+-   Photos are stored in `storage/app/public/meter-photos/`
+-   Maximum file size: 2MB
+-   Supported formats: JPEG, PNG, JPG, GIF
+
+## Development
+
+### Code Structure
+
+-   **Models**: `app/Models/MeterHistory.php`
+-   **Controllers**: `app/Http/Controllers/MeterHistoryController.php`
+-   **Views**: `resources/views/meter-histories/`
+-   **Migrations**: `database/migrations/`
+-   **Routes**: `routes/web.php`
+
+### Key Features Implementation
+
+-   **Filtering**: Implemented using Eloquent query scopes
+-   **Validation**: Comprehensive form validation rules
+-   **File Upload**: Secure file handling with storage links
+-   **Excel Import**: Flexible column mapping with validation
+-   **Responsive UI**: Bootstrap 5 with custom styling
+
+## Testing
+
+Run the test suite:
+
+```bash
+php artisan test
+```
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Support
+
+For support or questions, please open an issue in the repository or contact the development team.
+
+---
+
+**Note**: This application was built as a technical assessment for Laravel development skills, demonstrating proficiency in MVC architecture, database design, form handling, file uploads, and responsive web development.
